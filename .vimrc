@@ -30,7 +30,6 @@ set showcmd         " 输入的命令显示出来，看的清楚些
 
 "set cmdheight=1     " 命令行（在状态行下）的高度，设置为1  
 
-"set whichwrap+=<,>,h,l   " 允许backspace和光标键跨越行边界(不建议)  
 
 "set scrolloff=3     " 光标移动到buffer的顶部和底部时保持3行距离  
 
@@ -40,9 +39,9 @@ set statusline=%F%m%r%h%w\ [FORMAT=%{&ff}]\ [TYPE=%Y]\ [POS=%l,%v][%p%%]\ %{strf
 
 set laststatus=1    " 启动显示状态行(1),总是显示状态行(2)  
 
-set foldenable      " 允许折叠  
+""set foldenable      " 允许折叠  
 
-set foldmethod=manual   " 手动折叠  
+"set foldmethod=manual   " 手动折叠  
 
 "set background=dark "背景使用黑色 
 
@@ -253,7 +252,7 @@ func! CompileRunGcc()
 
         exec "!g++ % -DLOCAL -o %<"
 
-        exec "! ./%"
+        exec "! ./%<"
 
     elseif &filetype == 'java' 
 
@@ -335,13 +334,13 @@ set guioptions-=m           " 隐藏菜单栏
 
 " 设置在状态行显示的信息
 
-set foldcolumn=0
+""set foldcolumn=0
 
-set foldmethod=indent 
+""set foldmethod=indent 
 
-set foldlevel=3 
+""set foldlevel=3 
 
-set foldenable              " 开始折叠
+""set foldenable              " 开始折叠
 
 " 不要使用vi的键盘模式，而是vim自己的
 
@@ -563,7 +562,7 @@ let Tlist_Exist_OnlyWindow = 1  " 如果只有一个buffer，kill窗口也kill�
 
 let Tlist_File_Fold_Auto_Close = 0  " 不要关闭其他文件的tags  
 
-let Tlist_Enable_Fold_Column = 0    " 不要显示折叠树  
+""let Tlist_Enable_Fold_Column = 0    " 不要显示折叠树  
 
 autocmd FileType java set tags+=D:\tools\java\tags  
 
