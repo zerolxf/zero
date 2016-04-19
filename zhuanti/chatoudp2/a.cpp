@@ -26,27 +26,27 @@ using namespace std;
 #define prln(x) cout << #x << " = " << x <<  endl; 
 const int maxn = 4e5+100;
 const int INF = 0x3f3f3f3f;
-const int hashsize = 6e4+7;
+const int hashsize = 1e6+107;
 struct Hash{
 	int head[hashsize];
 	ll dp[hashsize];
-	int msk[hashzie];
+	ll msk[hashsize];
 	int nxt[hashsize];
 	int sz;
 	void clear() {
 		sz = 0;
 		memset(head, -1, sizeof head);
 	}
-	void push(int _msk, int t) {
+	void push(ll _msk, ll t) {
 		int x  = _msk%hashsize;
 		for(int i = head[x]; ~i; i= nxt[i]) {
 			if(msk[i] == _msk) {
-				dp[i] = t;
+				dp[i] += t;
 				return;
 			}
 		}
 		nxt[sz] = head[x];
-		dp[sz] += t;
+		dp[sz] = t;
 		msk[sz] = _msk;
 		head[x] = sz++;
 	}
@@ -62,26 +62,26 @@ struct Hash{
 char mp[16][16];
 int maze[16][16];
 int ex, ey;
-void getmaze(){
+void getmaze(int n, int m){
 	memset(maze, 0, sizeof maze);
 	for(int i = 0; i < n; ++i){
 		for(int j = 0; j < m; ++j){
-			if(mp[i][j] == '*') maze[i][j] = 1;
-			else {
+			if(mp[i][j] == '.') {
+				maze[i][j] = 1;
 				ex = i;ey = j;
 			}
 		}
 	}
 }
-void decode(int code[],int x, int m){
+void decode(int code[],ll  x, int m){
 	for(int i = 0; i <= m; ++i){
 		code[i] = x&7;
 		x >>=3;
 	}
 }
 int ch[20];
-int encode(int code[], m){
-	int ans = 0;
+ll encode(int code[], int m){
+	ll ans = 0;
 	memset(ch,-1, sizeof ch);
 	ch[0] = 0;
 	int cnt = 1;
@@ -89,7 +89,7 @@ int encode(int code[], m){
 		if(ch[code[i]] == -1) ch[code[i]] = cnt++;
 		code[i] = ch[code[i]];
 	}
-	for(int i = m; i >= 0; ++i){
+	for(int i = m; i >= 0; --i){
 		ans <<=3;
 		ans |= code[i];
 	}
@@ -99,43 +99,51 @@ void shift(int code[], int m) {
 	for(int i = m; i; --i){
 		code[i] = code[i-1];
 	}
+	code[0] = 0;
 }
 
 void dpblank(int i, int j, int pre, int m) {
 	int code[15];
 	for(int p = 0; p < hh[pre].sz; ++p){
-		int s = hh[pre].msk[i];
-		ll t = hh[pre].dp[i];
-		decode(code, m);
+		ll s = hh[pre].msk[p];
+		ll t = hh[pre].dp[p];
+		decode(code, s, m);
+//		pr(s);prln(t);
 		int left = code[j];
 		int up = code[j+1];
-		if(j == m){
-			if(left == 0){
-				shift(code, m);
-				code[0] = 0;
-				hh[pre^1].push(encode(code, m), t);
-			}
-			continue;
-		}
+//		pr(left);prln(up);
 		if(left && up){
 			if(left == up && i == ex && j == ey){
 				code[j] = 0; code[j+1] = 0;
+			//	if(j==m) shift(code,m);
 				hh[pre^1].push(encode(code,m), t);
 			} else if(left != up){
+				code[j] = 0; code[j+1] = 0;
 				for(int c = 0; c  <= m; ++c){
 					if(code[c] == up){
 						code[c] = left;
 					}
 				}
-				code[j] = 0; code[j+1] = 0;
+			//	if(j==m) shift(code,m);
 				hh[pre^1].push(encode(code,m), t);
 			}
 		} else if(left||up){
-			hh[pre^1].push(s, t);
-			swap(code[j], code[j+1]);
-			hh[pre^1].push(encode(code,m), m);
-		} else{
-			if(!maze[i][j+1] && !maze[i+1][j]){
+			int temp;
+			if(left) temp = left;
+			else temp = up;
+			if(maze[i][j+1]){
+				code[j+1] = temp;
+				code[j] = 0;
+				hh[pre^1].push(encode(code,m), t);
+			}
+			if(maze[i+1][j]){
+				code[j+1] = 0;
+				code[j] = temp;
+			//	if(j==m) shift(code,m);
+				hh[pre^1].push(encode(code,m), t);
+			}
+		} else if(left==0&&up==0){
+			if(maze[i][j+1] && maze[i+1][j]){
 				code[j] = 13;
 				code[j+1] = 13;
 				hh[pre^1].push(encode(code, m), t);
@@ -145,30 +153,37 @@ void dpblank(int i, int j, int pre, int m) {
 }
 void dpblock(int i, int j, int pre, int m){
 	int code[15];
+	memset(code, 0, sizeof code);
 	for(int p = 0; p < hh[pre].sz; ++p){
-		int s = hh[pre].msk[p];
-		int t = hh[pre].dp[p];
+		ll s = hh[pre].msk[p];
+		ll t = hh[pre].dp[p];
 		decode(code, s, m);
 		int left = code[j], up = code[j+1];
 		if(!left && !up) {
-			hh[pre^1].push(s, t);
+		code[j] = 0; code[j+1] = 0;
+			if(j==m) shift(code, m);
+			hh[pre^1].push(encode(code,m), t);
 		}
 	}
 }
-ll slove() {
+ll slove(int n, int m) {
 	for(int i = 0; i < n; ++i){
 		scanf("%s", mp[i]);
 	}
-	getmaze();
+	getmaze(n, m);
+	if(ex == 0){
+		printf("0\n");
+		return 0;
+	}
 	int now = 0, pre = 1;	
-	ll ans = 0;
 	hh[now].clear();
-	hh.push(0, 1);
+	hh[now].push(0, 1);
 	for(int i = 0; i < n; ++i){
 		for(int j = 0; j <=  m; ++j)
 		{
 			swap(now,pre);
-			if(maze[i][j]) dpblock(i,j,pre,m);
+			hh[now].clear();
+			if(!maze[i][j]) dpblock(i,j,pre,m);
 			else dpblank(i,j,pre,m);
 		}
 	}
@@ -183,7 +198,7 @@ int main(){
 	
 	int n, m;
 	while(scanf("%d%d",&n,&m) != EOF) {
-		slove();
+		slove(n, m);
 	}
 	return 0;
 }
