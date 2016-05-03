@@ -4,7 +4,6 @@
     > Mail: 641587852@qq.com 
     > Created Time: 2016年04月27日 星期三 18时37分35秒
  ************************************************************************/
-
 #include<iostream>
 #include<cstdio>
 #include<cstdlib>
@@ -59,9 +58,7 @@ struct Nodex{
 			add(i<<1|1, m+1, _r, val);
 		}
 	}
-
 }stx[maxn*3];
-
 void build(int i, int _l, int _r) {
 	stx[i].l = _l;
 	stx[i].r = _r;
@@ -74,7 +71,6 @@ void build(int i, int _l, int _r) {
 	build(i<<1, _l, m);
 	build(i<<1|1, m+1, _r);
 }
-
 void add(int i, int x1, int x2, int y1, int y2,int val) {
 	if(stx[i].l == x1 && stx[i].r == x2) {
 		stx[i].add(1,y1,y2,val);
@@ -88,7 +84,6 @@ void add(int i, int x1, int x2, int y1, int y2,int val) {
 		add(i<<1|1, mid+1, x2, y1, y2, val);
 	}
 }
-
 int sum(int x, int y) {
 	int ret  = 0;
 	for(int i = locx[x]; i; i>>=1){
@@ -98,12 +93,6 @@ int sum(int x, int y) {
 	}
 	return ret;
 }
-
-
-
-
-
-
 int main(){
 #ifdef LOCAL
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
