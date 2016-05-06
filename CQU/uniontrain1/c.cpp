@@ -44,24 +44,86 @@ bool dfs(int pos, int x, int mod, bool ok) {
     }
 
 }
-bool dp[512][512];
+struct Node{
+    int flag, last;
+};
+Node dp[512][10512][2];
 int main(){
 #ifdef LOCAL
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
-	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
+    freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
     int n, kase;
     scanf("%d", &kase);
     while(kase--){
         scanf("%d", &n);
         get(n);
+        
         memset(dp, -1 , sizeof dp);
-        dp[0][0] = 0;
-        for(int i = 0; i <= 100; ++i){
-            for(int j = 0; j< n; ++j){
-               int a 
+        for(int i = 0; i <= 110; ++i){
+            for(int j = 0; j <= n; ++j){
+                dp[i][j][0].last = dp[i][j][1].last = -1;
+                dp[i][j][1].flag = dp[i][j][0].flag = 0;
             }
         }
+        dp[0][0][0].last = 0;
+        dp[0][0][0].flag = false;
+        for(int i = 0; i <= 100; ++i){
+            for(int j = 0; j< n; ++j){
+                if(dp[i][j][0].last != -1){
+                    //pr(i);pr(j);pr(i+1);prln((j+num[i])%n);
+                    //prln(dp[i][j][0].last);
+                    if(dp[i][j][0].flag){
+                        if(!dp[i+1][(j+num[i])%n][1].flag){
+                            dp[i+1][(j+num[i])%n][1].flag = true;
+                            dp[i+1][(j+num[i])%n][1].last = j*2;
+                        }
+                        if(!dp[i+1][(j)%n][0].flag){
+                            dp[i+1][(j)%n][0].flag = true;
+                            dp[i+1][(j)%n][0].last = j*2;
+                        }
+                    } else {
+                        if(!dp[i+1][(j+num[i])%n][1].flag){
+                            dp[i+1][(j+num[i])%n][1].flag = true;
+                            dp[i+1][(j+num[i])%n][1].last = j*2;
+                        }
+                        if(!dp[i+1][(j)%n][0].flag){
+                            dp[i+1][(j)%n][0].flag = false;
+                            dp[i+1][(j)%n][0].last = j*2;
+                        }
+                        
+                    }
+                } 
+                if(dp[i][j][1].last != -1){
+                        //pr(i);pr(j);pr(i+1);prln((j+num[i])%n);
+                       // prln(dp[i][j][1].last);
+                        if(!dp[i+1][(j+num[i])%n][1].flag){
+                            dp[i+1][(j+num[i])%n][1].flag = true;
+                            dp[i+1][(j+num[i])%n][1].last = j*2+1;
+                        }
+                        if(!dp[i+1][(j)%n][0].flag){
+                            dp[i+1][(j)%n][0].flag = true;
+                            dp[i+1][(j)%n][0].last = j*2+1;
+                        }
+                } 
+            }
+        }
+        int ans = -1, pos = 0;
+        for(int i = 1; i <= 100; ++i){
+            if(dp[i][0][1].flag){
+                ans = 1;
+                pos = i;
+                break;
+            }
+        }
+        while(pos != 0){
+            if(ans%2) {
+                printf("1");
+            } else printf("0");
+            ans = dp[pos][ans/2][ans%2].last;
+            pos--;
+        }
+        printf("\n");
     }
 	return 0;
 }
