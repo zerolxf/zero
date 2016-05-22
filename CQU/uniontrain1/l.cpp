@@ -24,7 +24,7 @@ using namespace std;
 #define MEM(a,b) memset(a,b,sizeof a)
 #define pr(x) cout << #x << " = " << x << " ";
 #define prln(x) cout << #x << " = " << x <<  endl; 
-const int maxn = 4e5+100;
+const int maxn = 6e5+100;
 const int INF = 0x3f3f3f3f;
 int wa[maxn], wb[maxn], wv[maxn], c[maxn], t[maxn];
 bool cmp(int *r, int a, int b, int j) {
@@ -43,7 +43,7 @@ void getSa(int *r, int *sa, int n, int m) {
         for(i = 0; i < m; ++i) c[i] = 0;
         for(i = 0; i < n; ++i) c[wv[i]]++;
         for(i = 0; i < m-1; ++i) c[i+1] += c[i];
-        for(i = 0; i < n; ++i) sa[--c[y[i]]] = y[i];
+        for(i = n-1; i >= 0; --i) sa[--c[wv[i]]] = y[i];
         swap(x,y);
         x[sa[0]] = 0;
         for(i = 1, p = 1; i < n; ++i){
@@ -55,13 +55,15 @@ int rank[maxn], height[maxn];
 void getHeight(int *r, int *sa, int n) {
     int i, j, k = 0;
     for(int i = 1; i <= n; ++i) rank[sa[i]] = i;
-    for(i = 0; i < n; height[rank[i++]] = k)
-    for(k?k--:j = sa[rank[i]-1]; r[i+k] == r[j+k]; k++);
+    for(i = 0; i < n; height[rank[i++]] = k){
+        for(k?k--:0,j = sa[rank[i]-1]; r[i+k] == r[j+k]; k++);
+    }
 }
 char ss[maxn];
 int num[maxn];
 int sa[maxn];
-int a[maxn], pos[maxn], sum[maxn];
+ll a[maxn], pos[maxn];
+ll sum[maxn];
 int main(){
 #ifdef LOCAL
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
@@ -72,36 +74,35 @@ int main(){
     while(t--){
         scanf("%s", ss);
         int len = strlen(ss);
-        prln(ss);
         for(int i = 0; i < len; ++i) {
             num[i] = ss[i];
         }
         num[len] = 0;
         getSa(num, sa, len+1, 150);
-        prln(ss);
         getHeight(num, sa, len);
         height[1] = 0;
         int now = 1;
-        prln(now);
         for(int i = 0; i <= len; ++i) sum[i] = 0;
         a[0] = height[1];
         pos[0] = 1;
         ll ans = 0;
         for(ll i = len; i >= 1; --i) ans += (len-1)*i;
-        for(int i = 2; i <= len; ++i){
+        for(ll i = 2; i <= len; ++i){
             int p = lower_bound(a,a+now,height[i]) - a;
-            pr(p);
-            if(p >= now) {
-                a[p] = height[i];
+            if(p==0){
+                sum[0] = (i-1)*height[i];
+                ans -= 2*sum[0];
+            }
+            else if(p >= now) {
                 sum[p] = sum[p-1] + height[i];
                 ans -= 2*sum[p];
-                pos[p] = i;
-                now=p+1;
             }else {
-                a[p] = height[i];
-                ans -= 2*(sum[p-1]  + (i-pos[p]+1)*a[p]);
-                now = p+1;
+                sum[p] =  sum[p-1] + height[i]*(i-pos[p-1]);
+                ans -= 2*(sum[p] );
             }
+            a[p] = height[i];
+            pos[p] = i;
+            now = p+1;
         }
         printf("%lld\n", ans);
     }
