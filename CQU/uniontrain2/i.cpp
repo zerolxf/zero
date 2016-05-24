@@ -18,7 +18,7 @@
 #include<string>
 #include<cmath>
 using namespace std;
-#define ll long long
+#define ll    
 #define rep(i,n) for(int i =0; i < n; ++i)
 #define CLR(x) memset(x,0,sizeof x)
 #define MEM(a,b) memset(a,b,sizeof a)
@@ -26,21 +26,21 @@ using namespace std;
 #define prln(x) cout << #x << " = " << x <<  endl; 
 const int maxn = 6e5+100;
 const int INF = 0x3f3f3f3f;
-double sum[maxn], suma[maxn], sumb[maxn];
+  double sum[maxn], suma[maxn], sumb[maxn];
 int n;
-double t[maxn];
-double eps = 1e-7;
+  double t[maxn];
+  double eps = 1e-9;
 struct Node{
-    double num, x;
+      double num, x;
     Node(){}
-    Node( double _num, double _x){
+    Node(  double _num,  double _x){
         num = _num;
         x = _x;
     }
 }q[2][maxn];
 int tail[55], head[55];
-bool get1(const Node& a, const Node& b,  const double x){
-    return (b.num - a.num) <= x * (b.x - a.x) +eps;
+bool get1(const Node& a, const Node& b,  const   double x){
+    return (b.num - a.num)*1.0 <= x * (b.x - a.x) +eps;
 }
 bool get2(const Node& a, const Node& b,const Node& c){
     return (c.num - a.num)*(b.x-a.x) <= (b.num - a.num)*(c.x-a.x)+eps;
@@ -56,14 +56,15 @@ int main(){
         sum[0] = suma[0] = sumb[0] = 0;
         scanf("%d%d", &n, &k);
         for(int i = 1; i <= n; ++i){
+        //    cin >> t[i];
             scanf("%lf", &t[i]);
         }
         for(int i = 1; i <= n; ++i){
             suma[i] = suma[i-1] + t[i];
-            sum[i]  = sum[i-1] + 1.0/t[i];
+            sum[i]  =(t[i]*sum[i-1] + 1)/t[i];
             sumb[i] = sumb[i-1] + sum[i-1]*t[i];
         }
-        double y, temp ;
+          double y, temp ;
         int now = 0, pre = 1;
         head[now] = 0;tail[now] = -1;
         q[now][++tail[now]] = Node(0,0);
@@ -72,7 +73,7 @@ int main(){
             now = now^1;
             tail[now] = -1, head[now] = 0;
             for(int i = 1; i <= n; ++i){
-                double x = sum[i];
+                  double x = sum[i];
                 while(head[pre] < tail[pre] && get1(q[pre][head[pre]], q[pre][head[pre]+1], x)){
                     head[pre]++;
                 }
@@ -84,9 +85,9 @@ int main(){
                 q[now][++tail[now]] = nw;
             }
         }
-        double ans = temp - sumb[n];
+          double ans = temp - sumb[n];
         //cout << ans << "\n";
-        printf("%.4f\n", ans);
+        printf("%.9f\n", ans);
     }
 	return 0;
 }
