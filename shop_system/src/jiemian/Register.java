@@ -270,7 +270,6 @@ public class Register extends javax.swing.JPanel {
         stringage = R_jTextField_age.getText();
         age = Integer.valueOf(stringage);
         id = -1;
-        JOptionPane.showMessageDialog(null, "接受成功");
         if(!password1.equals(password2)){
             JOptionPane.showMessageDialog(null, "两次密码不一致");
         }else{
@@ -284,6 +283,8 @@ public class Register extends javax.swing.JPanel {
                 } catch (Exception ex) {
                     Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
                      JOptionPane.showMessageDialog(null, "注册失败");
+                     return;
+                     
                 }
                 
             }
@@ -297,10 +298,16 @@ public class Register extends javax.swing.JPanel {
                      JOptionPane.showMessageDialog(null, "注册成功,商家id是"+id);
                 } catch (Exception ex) {
                     Logger.getLogger(Register.class.getName()).log(Level.SEVERE, null, ex);
-                     JOptionPane.showMessageDialog(null, "失败");
+                     JOptionPane.showMessageDialog(null, "注册失败");
+                     return;
                 }
             }
         }
+        parent.setSize(330,250);
+        parent.setVisible(true);
+        frame.setSize(350,300);
+        this.setVisible(false);
+        parent.setVisible(true);
     }//GEN-LAST:event_R_jButton_registerActionPerformed
 
     private void R_jPasswordField2ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_R_jPasswordField2ActionPerformed

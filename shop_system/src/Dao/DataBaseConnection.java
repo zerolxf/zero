@@ -19,9 +19,9 @@ import java.util.logging.Logger;
  */
 public class DataBaseConnection {
     private static final String DBDRIVER = "com.mysql.jdbc.Driver";
-    private static final String DBURL = "jdbc:mysql://localhost:3306/shop_system";
-    private static final String DBUSER = "root";
-    private static final String DBPASS = "chengnuolxf1314";
+    private static final String DBURL = "jdbc:mysql://119.29.61.178/shop_system";
+    private static final String DBUSER = "zeroxf";
+    private static final String DBPASS = "123456";
     private Connection conn = null;
     public DataBaseConnection (){
         try{

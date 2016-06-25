@@ -324,6 +324,7 @@ public class Information extends javax.swing.JFrame {
                     JOptionPane.showMessageDialog(null, "修改成功");
                     customers.password = password1;
                     customers.cid = id;
+                    parent1.password = password1;
                 }
                 else JOptionPane.showMessageDialog(null, "修改失败");
             } catch (Exception ex) {

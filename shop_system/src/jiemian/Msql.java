@@ -29,6 +29,7 @@ public class Msql extends javax.swing.JFrame {
     }
     public Msql() {
         initComponents();
+         this.setDefaultCloseOperation(HIDE_ON_CLOSE);
     }
 
     /**

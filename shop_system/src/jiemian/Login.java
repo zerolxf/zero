@@ -38,6 +38,18 @@ public class Login extends javax.swing.JPanel {
     Smain smain;
     Mmain mmain;
     String password;
+    public void setinit(){
+         usrtype = null;
+     customers = null;
+     sellers = null;
+     managers = null;
+//     frame = null;
+     register = null;
+     cmain = null;
+     smain = null;
+     mmain = null;
+    password = null;
+    }
     public Login(Daoproxy daoproxy, JFrame frame) {
         super();
         this.daoproxy = new Daoproxy();
@@ -187,7 +199,7 @@ public class Login extends javax.swing.JPanel {
         }
         password = String.valueOf(L_text_password.getPassword());
         this.usrtype = (String) L_text_usr_type.getSelectedItem();
-
+        L_text_password.setText("jPasswordField1");
         
         try {
             customers =  daoproxy.findCustomers(usrid, password);
