@@ -79,7 +79,6 @@ void update(int rt, int l, int r, int o, int v){
         flag[rt] = 0;
         return;
     }
-//    pr(rt);pr(l);pr(r);pr(o);prln(v);
     pushdown(rt);
     int m = l + r >> 1;
     if(m >= o) update(rt<<1, l, m, o, v);

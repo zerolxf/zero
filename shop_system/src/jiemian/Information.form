@@ -1,0 +1,277 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+
+<Form version="1.3" maxVersion="1.9" type="org.netbeans.modules.form.forminfo.JFrameFormInfo">
+  <Properties>
+    <Property name="defaultCloseOperation" type="int" value="3"/>
+  </Properties>
+  <SyntheticProperties>
+    <SyntheticProperty name="formSizePolicy" type="int" value="1"/>
+    <SyntheticProperty name="generateCenter" type="boolean" value="false"/>
+  </SyntheticProperties>
+  <AuxValues>
+    <AuxValue name="FormSettings_autoResourcing" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_autoSetComponentName" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_generateFQN" type="java.lang.Boolean" value="true"/>
+    <AuxValue name="FormSettings_generateMnemonicsCode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_i18nAutoMode" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_layoutCodeTarget" type="java.lang.Integer" value="1"/>
+    <AuxValue name="FormSettings_listenerGenerationStyle" type="java.lang.Integer" value="0"/>
+    <AuxValue name="FormSettings_variablesLocal" type="java.lang.Boolean" value="false"/>
+    <AuxValue name="FormSettings_variablesModifier" type="java.lang.Integer" value="2"/>
+  </AuxValues>
+
+  <Layout>
+    <DimensionLayout dim="0">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="56" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="R_Lable_name" alignment="1" min="-2" pref="57" max="-2" attributes="0"/>
+                          <Component id="R_Lable_usertype" alignment="1" min="-2" pref="57" max="-2" attributes="0"/>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" attributes="0">
+                              <Component id="R_Lable_usrtype" min="-2" pref="57" max="-2" attributes="0"/>
+                              <EmptySpace min="-2" pref="23" max="-2" attributes="0"/>
+                              <Component id="R_Lable_name2" min="-2" pref="57" max="-2" attributes="0"/>
+                              <EmptySpace max="-2" attributes="0"/>
+                              <Component id="R_Lable_pid" min="-2" pref="57" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="R_jTextField_name" min="-2" pref="148" max="-2" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Group type="103" groupAlignment="1" attributes="0">
+                          <Component id="R_Lable_name1" alignment="1" min="-2" pref="40" max="-2" attributes="0"/>
+                          <Group type="103" alignment="1" groupAlignment="0" attributes="0">
+                              <Component id="R_Lable_phonenum" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                              <Component id="R_Lable_password" alignment="0" min="-2" pref="57" max="-2" attributes="0"/>
+                          </Group>
+                      </Group>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Group type="103" groupAlignment="0" attributes="0">
+                          <Group type="102" alignment="1" attributes="0">
+                              <Component id="R_jComboBox_Sex" max="32767" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="R_Lable_age" min="-2" pref="43" max="-2" attributes="0"/>
+                              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                              <Component id="R_jTextField_age" min="-2" pref="43" max="-2" attributes="0"/>
+                          </Group>
+                          <Component id="R_jPasswordField1" alignment="0" max="32767" attributes="0"/>
+                          <Component id="R_jTextField_phonenum" alignment="0" max="32767" attributes="0"/>
+                      </Group>
+                  </Group>
+                  <Group type="102" alignment="1" attributes="0">
+                      <Component id="R_jButton_register" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="40" max="-2" attributes="0"/>
+                      <Component id="R_jButton_cancle" min="-2" max="-2" attributes="0"/>
+                      <EmptySpace min="-2" pref="13" max="-2" attributes="0"/>
+                  </Group>
+                  <Group type="102" alignment="0" attributes="0">
+                      <Component id="R_Lable_password1" min="-2" pref="57" max="-2" attributes="0"/>
+                      <EmptySpace type="unrelated" max="-2" attributes="0"/>
+                      <Component id="R_jPasswordField2" max="32767" attributes="0"/>
+                  </Group>
+              </Group>
+              <EmptySpace min="0" pref="77" max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+    <DimensionLayout dim="1">
+      <Group type="103" groupAlignment="0" attributes="0">
+          <Group type="102" alignment="0" attributes="0">
+              <EmptySpace min="-2" pref="29" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="R_Lable_usertype" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_Lable_name2" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_Lable_pid" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_Lable_usrtype" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="R_Lable_name" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_jTextField_name" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="unrelated" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="R_Lable_password" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_jPasswordField1" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="R_Lable_password1" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_jPasswordField2" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="1" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="R_Lable_phonenum" alignment="3" min="-2" pref="30" max="-2" attributes="0"/>
+                  <Component id="R_jTextField_phonenum" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace type="separate" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="0" max="-2" attributes="0">
+                  <Component id="R_jTextField_age" alignment="1" pref="22" max="32767" attributes="0"/>
+                  <Group type="103" alignment="0" groupAlignment="3" attributes="0">
+                      <Component id="R_jComboBox_Sex" alignment="3" min="-2" max="-2" attributes="0"/>
+                      <Component id="R_Lable_age" alignment="3" max="32767" attributes="0"/>
+                  </Group>
+                  <Component id="R_Lable_name1" alignment="1" max="32767" attributes="0"/>
+              </Group>
+              <EmptySpace min="-2" pref="27" max="-2" attributes="0"/>
+              <Group type="103" groupAlignment="3" attributes="0">
+                  <Component id="R_jButton_register" alignment="3" min="-2" max="-2" attributes="0"/>
+                  <Component id="R_jButton_cancle" alignment="3" min="-2" max="-2" attributes="0"/>
+              </Group>
+              <EmptySpace max="32767" attributes="0"/>
+          </Group>
+      </Group>
+    </DimensionLayout>
+  </Layout>
+  <SubComponents>
+    <Component class="javax.swing.JButton" name="R_jButton_register">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x786e;&#x8ba4;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="R_jButton_registerActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_pid">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="0"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_password">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x5bc6;&#x7801;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JButton" name="R_jButton_cancle">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="&#x53d6;&#x6d88;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="R_jButton_cancleActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="R_jPasswordField1">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="        "/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="R_jPasswordField1ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_password1">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x5bc6;&#x7801;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_phonenum">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x624b;&#x673a;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JPasswordField" name="R_jPasswordField2">
+      <Properties>
+        <Property name="text" type="java.lang.String" value="        "/>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="R_jPasswordField2ActionPerformed"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="R_jTextField_phonenum">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="R_jTextField_phonenumjTextFieldFocusGained_Rname"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JComboBox" name="R_jComboBox_Sex">
+      <Properties>
+        <Property name="model" type="javax.swing.ComboBoxModel" editor="org.netbeans.modules.form.editors2.ComboBoxModelEditor">
+          <StringArray count="2">
+            <StringItem index="0" value="&#x7537;"/>
+            <StringItem index="1" value="&#x5973;"/>
+          </StringArray>
+        </Property>
+      </Properties>
+      <Events>
+        <EventHandler event="actionPerformed" listener="java.awt.event.ActionListener" parameters="java.awt.event.ActionEvent" handler="R_jComboBox_SexActionPerformed"/>
+      </Events>
+      <AuxValues>
+        <AuxValue name="JavaCodeGenerator_TypeParameters" type="java.lang.String" value="&lt;String&gt;"/>
+      </AuxValues>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_usertype">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x7528;&#x6237;&#x7c7b;&#x578b;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_name1">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x6027;&#x522b;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_name2">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x7528;&#x6237;id:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_age">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x5e74;&#x9f84;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_name">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="4"/>
+        <Property name="text" type="java.lang.String" value="&#x7528;&#x6237;&#x540d;:"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+    <Component class="javax.swing.JTextField" name="R_jTextField_age">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="R_jTextField_agejTextFieldFocusGained_Rname"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JTextField" name="R_jTextField_name">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="&#x5fc5;&#x586b;"/>
+      </Properties>
+      <Events>
+        <EventHandler event="focusGained" listener="java.awt.event.FocusListener" parameters="java.awt.event.FocusEvent" handler="R_jTextField_namejTextFieldFocusGained_Rname"/>
+      </Events>
+    </Component>
+    <Component class="javax.swing.JLabel" name="R_Lable_usrtype">
+      <Properties>
+        <Property name="horizontalAlignment" type="int" value="0"/>
+        <Property name="text" type="java.lang.String" value="&#x7c7b;&#x578b;"/>
+        <Property name="toolTipText" type="java.lang.String" value=""/>
+      </Properties>
+    </Component>
+  </SubComponents>
+</Form>
