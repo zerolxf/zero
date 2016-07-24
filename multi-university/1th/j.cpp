@@ -2,9 +2,9 @@
 	> File Name: j.cpp
 	> Author: liangxianfeng
 	> Mail:   liangxianfeng96@qq.com
-	> Created Time: 2016年07月20日 星期三 16时37分34秒
+	> Created Time: 2016年07月22日 星期五 22时51分01秒
  ************************************************************************/
-#pragma comment(linker, "/STACK:102400000,102400000")
+
 #include<iostream>
 #include<cstdio>
 #include<cstdlib>
@@ -24,297 +24,344 @@ using namespace std;
 #define MEM(a,b) memset(a,b,sizeof a)
 #define pr(x) //cout << #x << " = " << x << " ";
 #define prln(x) //cout << #x << " = " << x <<  endl; 
-#define ni (i^1)
+#define print(x) //cout << " = " << x <<  endl; 
 const int maxn = 4e5+100;
 const int INF = 0x3f3f3f3f;
-const ll MOD = 1e17+7;
-const ll base = 2e7+7;
-struct Node{
-    ll hash;
-    int id;
-    bool operator < (const Node& rhs)const{
-        return hash < rhs.hash;
+const ll base = 1e7+7;
+const ll MOD = 794623899271;
+map<string, int> mp1, mp2;
+int cnt1, cnt2;
+typedef pair<ll,int> Node;
+vector<Node> G[maxn];
+//vector<int> v[2][maxn];
+
+string name1[maxn], name2[maxn];
+
+int n, m;
+int dis[maxn], vis[maxn];
+int q[maxn];
+ll siz[maxn], has[2][maxn];
+struct Hashtree{
+    int now;
+    int root[3];
+    int start;
+    void init(int _start){
+        memset(root, -1, sizeof root);
+        start = _start;
+        now = 0;
     }
-}a[maxn], b[maxn];
-struct State{
-    int x;
-};
-struct Tree{
-    ll hash, n;
-    ll f[maxn];
-    int head[maxn], to[maxn], nxt[maxn];
-    Node node[maxn];
-    ll siz[maxn];
-    ll l[maxn], r[maxn];
-    int tcnt = 0;
-    ll temp[maxn];
-    ll gethash(int x){
-        ll ans = 0;
-        sort(temp+1, temp+x);
-        for(int i = 0; i < x; ++i){
-            /*pr(i);prln(temp[i]);*/
-            ans = (ans*base + temp[i])%MOD;
+   int dfs1(int u ){
+        prln("dfs1");
+        memset(vis, 0, sizeof vis);
+        int qcnt = 0;
+        for(int i = 0+start; i <= n+start; ++i){
+            dis[i] = INF;
         }
-        /*prln(ans);*/
-        return ans;
-    }
-    int edgenum;
-    void addedge(int u, int v){
-        nxt[edgenum] = head[u];
-        to[edgenum] = v;
-        f[edgenum] = -1;
-        head[u] = edgenum++;
-    }
-    ll ret(ll x, int y){
-        ll ans = 1;
-        while(y){
-            if(y&1) ans = ans*x%MOD;
-            x = x*x%MOD;
-            y >>= 1;
-        }
-        return ans;
-    }
-    void init(int _n){
-        n = _n;
-        tcnt = 0;
-        memset(head, -1, sizeof head);
-        edgenum = 0;
-    }
-    void dfs1(int u, int fa) {
-        //prln("*************");
-        siz[u] = 1;
-        prln(u);
-        //prln(u);
-        for(int i = head[u]; ~i; i= nxt[i]){
-            prln(i);
-            int v = to[i];
-            if(v == fa) continue;
-            dfs1(v, u);
-            f[i] = 0;
-            int cnt = 0;
-            temp[cnt++] = siz[v];
-            siz[u] += siz[v];
-            for(int j = head[v]; ~j; j = nxt[j]){
-                if(to[j] == u) continue;
-                temp[cnt++] = f[j];
+        dis[u] = 0;
+        vis[u] = true;
+        q[++qcnt] = u;
+        while(qcnt){
+            u = q[qcnt--];
+            prln(u);
+            prln("1");
+            int usize = G[u].size();
+            for(int i = 0; i < usize; ++i){
+                int v = G[u][i].second;
+                if(v == u) continue;
+                if(dis[v]<=dis[u]) continue;
+                q[++qcnt] = v;
+                dis[v] = dis[u] + 1;
             }
-            prln(cnt);
-            f[i] = gethash(cnt);
-            //pr(to[i]);prln(siz[to[i]]);
-            //pr(i);prln(f[i]);
-        //prln(">>>>>>>>>>>>>>>");
         }
-        //pr(u);prln(siz[u]);
+        int ma = 0, id = 0;
+        prln(start);
+        for(int i = start; i <= start+n-1; ++i){
+            if(dis[i] > ma){
+                pr(i);pr(dis[i]);prln(ma);
+                ma = dis[i];
+                id = i;
+            }
+        }
+        prln("dfs1 end");
+        return id;
     }
-    int pos;
+
     void dfs2(int u, int fa){
-        int cnt = 0;
-        int tempsz = tcnt;
-        pr(u);prln(fa);
-        prln(tcnt);
-        int i,  v;
-        for(i = head[u]; ~i; i = nxt[i]){
-            temp[tcnt++] = f[i];
-            pr(i);prln(tcnt);
-        }
-        sort(temp+tempsz, temp+tcnt);
-        cnt = tcnt - tempsz;
-        /*prln("*************");*/
-        pr(u);pr(fa);
-        /*pr(tempsz);pr(tcnt);prln(cnt);*/
-        for(i = tempsz; i < tcnt; ++i){
-            pr(i);prln(tcnt);
-            if(i == tempsz) l[i] = temp[i];
-            else{
-                l[i] = (l[i-1]*base+temp[i])%MOD;
-            }
-        }
-        for(i = tcnt-1; i >= tempsz; --i){
-            prln(i);
-            if(i == tcnt-1){
-                r[i] = temp[i]*ret(base, tcnt-1-i);
-            }else{
-                r[i] = (r[i+1] + temp[i]*ret(base, tcnt-i-1)); 
-            }
-        }
-        prln("1");
-        for(i = head[u]; ~i; i = nxt[i]){
-            v = to[i];
+        prln("dfs2");
+        siz[u] = 1;
+        int usize = G[u].size();
+        for(int i = 0; i < usize; ++i){
+            //int v  = G[u][i].second;
+            int v = G[u][i].second;
             if(v == fa) continue;
-            /*prln(ni);*/
-            /*pr(f[i]);*/
-            prln("3");
-            prln(i);
-            pos = lower_bound(temp+tempsz, temp+tcnt, f[i]) - temp-tempsz;
-            /*pr(pos);prln(cnt);*/
-            /*for(int j = tempsz; j < tcnt; ++j){*/
-                /*pr(j);*/
-                /*pr(l[j]);*/
-                /*pr(r[j]);*/
-                /*prln(temp[j]);*/
-
-            /*}*/
-            f[ni] = n-siz[to[i]];
-            //prln(f[ni]);
-            f[ni] = f[ni]*ret(base, cnt-1)%MOD;
-            prln(f[ni]);
-            if(pos) f[ni] = (f[ni] + l[pos-1+tempsz]*ret(base, cnt-pos-1));
-            /*prln(f[ni]);*/
-            pr(cnt-pos-1);
-            /*pr(l[pos-1+tempsz]);*/
-            /*pr(tempsz+pos+1);*/
-            if(pos!=cnt-1) f[ni] = (f[ni] + r[tempsz+pos+1])%MOD;
-            /*pr(r[pos+tempsz+1]);*/
-            prln(f[ni]);
-            
-            prln("4");
-            dfs2(to[i], u);
-            prln("5");
-
+            dfs2(v, u);
+            siz[u] += siz[v];
         }
-        prln(tcnt);
-        tcnt = tempsz;
-        //prln("--------------");
-    }
-    void getf(){
-        for(int i = 1; i <= n; ++i){
-            node[i].id = i;
-            node[i].hash = 0;
-            ll &ans = node[i].hash;
-            int cnt = 0;
-            for(int j = head[i]; ~j; j = nxt[j]){
-                temp[cnt++] = f[j];
-            }
-            sort(temp, temp+cnt);
-            for(int j = 0; j < cnt; ++j){
-                ans = (ans*base + temp[j])%MOD;
-            }
-            //pr(i);pr(siz[i]);prln(node[i].hash);
+        has[now][u] = siz[u];
+        vector<ll> vt;
+        for(int i = 0; i < usize; ++i){
+            //int v= G[u][i];
+            int v = G[u][i].second;
+            if(v == fa) continue;
+            vt.push_back(has[now][v]);
         }
-        sort(node+1, node+1+n);
+        sort(vt.begin(), vt.end());
+        int vtsize = vt.size();
+        for(int i = 0; i < vtsize; ++i){
+            has[now][u] = (has[now][u]*base + vt[i])%MOD;
+        }
     }
-    int getid(ll _hash, int l){
-        Node x;
-        x.hash = _hash;
-        int pos = lower_bound(node+1+l, node+1+n, x) - node; 
-        return pos;
+   void gethash(){
+       prln("get hash start");
+       int root1 = dfs1(start);
+       int root2 = dfs1(root1);
+       int qcnt = 0;
+       q[++qcnt] = root2;
+       memset(vis, 0, sizeof vis);
+       vis[root2] = true;
+       //pr(root1);prln(root2);
+       while(!vis[root1]){
+            int u = q[qcnt];
+            int usize = G[u].size();
+            prln(u);
+            prln("1");
+            prln(usize);
+            for(int i = 0; i < usize; ++i){
+                //int v = G[u][i];
+                int v = G[u][i].second;
+                pr(v);pr(u);pr(dis[v]);prln(dis[u]);
+               pr(root1);prln(root2);
+                if(dis[v]>=dis[u]) continue;
+                q[++qcnt] = v;
+                vis[v] = true;
+            }
+       }
+       memset(root, -1, sizeof root);
+       if(qcnt&1){
+           root[0] = q[(qcnt+1)/2];
+       }else{
+           root[0] = q[(qcnt)/2];
+           root[1] = q[(qcnt)/2+1];
+       }
+       now = 0;
+       pr(root[0]);prln(root[1]);
+       dfs2(root[0], root[0]);
+       if(~root[1]){
+           now = 1;
+           dfs2(root[1], root[1]);
+           if(has[0][root[0]] < has[1][root[1]]){
+               ll t;
+
+               for(int i = start; i <= start+n-1; ++i){
+                    t = has[0][i];
+                    has[0][i] = has[1][i];
+                    has[1][i] = t;
+               }
+               swap(root[0], root[1]);
+           }
+       }
+       prln("get hash end");
     }
 }hh, hw;
-ll getstr(char s[], int len){
-    ll ans = 0;
-    for(int i = 0; i < len; ++i){
-        ans = ans*base + s[i];
-        ans %= MOD;
-    }
-    return ans;
+int ans[maxn];
+int coun;
+bool in[maxn];
+void prname(int id){
+    //pr(id);prln(name1[id]);
 }
-ll hasha[maxn], hashb[maxn];
-/*char su[20], sv[20];*/
-char ss[212345][2][20];
-ll bian[213456][20];
-int id[maxn];
-int ida[maxn];
+bool dfs(int u, int v){
+    pr(u);prln(v);
+    in[u] = true;
+    in[v] = true;
+    if(G[u].size() != G[v].size()){
+        in[u] = false;
+        in[v] = false;
+        return false;
+    }
+    int usize = G[u].size();
+    int last = 0;
+    int oknum = 0;
+    for(int i = 0; i < usize; ++i){
+        int uu = G[u][i].second;
+        if(uu==u) continue;
+        for(int j = last; j < usize; ++j){
+            int vv = G[v][i].second;
+            pr(u);pr(uu);pr(v);prln(vv);
+            prname(u);prname(v);
+            prname(uu);
+            prname(vv);
+            int temp = coun++;
+            prln(temp);prln("start");
+            if(vv==v) continue;
+            prln(temp);prln("vv==v");
+            if(in[uu]||in[vv]) continue;
+            prln(temp);prln("!in[uu]&&!in[vv]");
+            if(has[hh.now][uu] != has[hw.now][vv]) {
+
+                prln(temp);prln("has!=");
+                return false;
+            }
+
+            prln(temp);prln("dfs");
+            if(!dfs(uu, vv)){
+                ++j;
+                continue;
+            }
+            prln(temp);prln("end");
+            swap(G[v][j], G[v][last]);
+            oknum++;
+            last = last+1;
+            break;
+        }
+    }
+    ans[u] = v;
+    return true;
+}
+void printhash(){
+    for(int i = 1; i <= n*2; ++i){
+        pr(i);pr(name1[i]);pr(has[0][i]);prln(has[1][i]);
+    }
+}
+void solve(){
+
+    //prln("hh")
+    hh.init(1);
+    hh.gethash();
+    //prln("hw");
+    hw.init(n+1);
+    hw.gethash();
+    bool ok = true;
+    hh.now = hw.now = 0;
+    prln("dfs start");
+    memset(ans, 0, sizeof ans);
+    for(int i = 1; i <= 2*n; ++i){
+        int usize = G[i].size();
+        for(int j = 0; j < usize; ++j){
+            Node& x = G[i][j];
+            x.first = has[0][x.second];
+            //pr(u);pr(v);prln(G[i][j].second);
+        }
+        sort(G[i].begin(), G[i].end());
+        for(int j = 0; j < usize; ++j){
+            pr(i);pr(G[i][j].second);prln(G[i][j].first);
+            //Node& x = G[i][j];
+            //x.first = has[0][x.first];
+            //pr(u);pr(v);prln(G[i][j].second);
+        }
+    }
+
+    memset(in, 0, sizeof in);
+    pr(hw.root[0]);prln(name1[hw.root[0]]);
+    pr(hw.root[1]);prln(name1[hw.root[1]]);
+    pr(hh.root[0]);prln(name1[hh.root[0]]);
+    pr(hh.root[1]);prln(name1[hh.root[1]]);
+    ll h1 = has[0][hh.root[0]];
+    ll h2 = has[0][hw.root[0]];
+    pr(h1);prln(h2);
+    h1 = has[1][hh.root[1]];
+    h2 = has[1][hw.root[1]];
+    pr(h1);prln(h2);
+    prln("第一次匹配");
+    if(h1!=h2||!dfs(hh.root[0], hw.root[0])){
+        pr("hh1");prname(hh.root[1]);
+        pr("hw1")prname(hw.root[1]);
+        pr("hh0");prname(hh.root[0]);
+        pr("hw0")prname(hw.root[0]);
+        if(hh.root[1]!=-1){
+            hh.now = 0;
+            hw.now = 1;
+            for(int i = n+1; i <= 2*n; ++i){
+                int usize = G[i].size();
+                for(int j = 0; j < usize; ++j){
+                    Node& x = G[i][j];
+                    x.first = has[1][x.second];
+                    //pr(u);pr(v);prln(G[i][j].second);
+                }
+                sort(G[i].begin(), G[i].end());
+            }
+            memset(in, 0, sizeof in);
+            h1 = has[0][hh.root[0]];
+            h2 = has[1][hw.root[1]];
+            pr(h1);prln(h2);
+            prln("第二次匹配hh0和hw1");
+            ok = ok || dfs(hh.root[0], hw.root[1]);
+        }
+    }else ok = true;
+    for(int i = 1; i <= n; ++i){
+        pr(i);prln(ans[i]);
+        cout << name1[i] << " " << name1[ans[i]] << "\n";
+    }
+    printhash();
+
+    prln("dfs end");
+    prln("solve end");
+
+}
+int getid1(const string& str){
+    if(mp1.count(str)) return mp1[str];
+    mp1[str] = ++cnt1;
+    name1[cnt1] = str;
+    //pr(cnt1);prln(name1[cnt1]);
+    return cnt1;
+}
+int getid2(const string& str){
+    if(mp2.count(str)) return mp2[str];
+    mp2[str] = ++cnt1;
+    name1[cnt1] = str;
+    //pr(cnt1);prln(name1[cnt1]);
+    return cnt1;
+}
+//struct Node{
+    //ll hash, id;
+    //Node(){}
+    //Node(ll _hash, ll _id){
+        //hash = _hash;
+        //id = _id;
+    //}
+    //bool operator < (const Node& rhs)const{
+        //return hash < rhs.hash;
+    //}
+//}node[maxn];
+
 int main(){
 #ifdef LOCAL
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
-    /*freopen("/home/zeroxf/桌面/out1.txt","w",stdout);*/
+	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
-    int  n;
+    int t;
     //scanf("%d", &t);
     while(scanf("%d", &n) != EOF){
-        //scanf("%d%d", &n, &m);
-        hh.init(n);
-        hw.init(n);
-        int lenu = 0,lenv = 0,hashu = 0,hashv = 0;
-        int cnta =0,cntb = 0;
+        //scanf("%d", &n);
+        string stra, strb;
+        int u, v;
+        mp1.clear();
+        mp2.clear();
+        cnt1 = 0;
+        for(int i = 0; i <= 2*n; ++i){
+            G[i].clear();
+        }
         for(int i = 1; i < n; ++i){
-            scanf("%s%s",ss[i][0], ss[i][1]);
-            lenu = strlen(ss[i][0]);
-            lenv = strlen(ss[i][1]);
-            hashu = getstr(ss[i][0], lenu);
-            hashv = getstr(ss[i][1], lenv);
-            //pr(i);pr(hashu);prln(hashv);
-            hasha[cnta++] = hashu;
-            hasha[cnta++] = hashv;
-            bian[i][0] = hashu;
-            bian[i][1] = hashv;
+            cin >> stra >> strb;
+            pr(stra);prln(strb);
+            u = getid1(stra);
+            v = getid1(strb);
+            pr(u);prln(v);
+            G[u].push_back(Node(0,v));
+            G[v].push_back(Node(0,u));
         }
 
         for(int i = 1; i < n; ++i){
-            scanf("%s%s",ss[i+n][0], ss[i+n][1]);
-            lenu = strlen(ss[i+n][0]);
-            lenv = strlen(ss[i+n][1]);
-            hashu = getstr(ss[i+n][0], lenu);
-            hashv = getstr(ss[i+n][1], lenv);
-            //pr(i);pr(hashu);prln(hashv);
-            hashb[cntb++] = hashu;
-            hashb[cntb++] = hashv;
-            bian[i+n][0] = hashu;
-            bian[i+n][1] = hashv;
+            cin >> stra >> strb;
+            pr(stra);prln(strb);
+            u = getid2(stra);
+            v = getid2(strb);
+            pr(u);prln(v);
+            G[u].push_back(Node(0,v));
+            G[v].push_back(Node(0,u));
         }
-        sort(hasha,hasha+cnta);
-        sort(hashb,hashb+cntb);
-        cnta = unique(hasha, hasha+cnta)-hasha;
-        cntb = unique(hashb, hashb+cntb)-hashb;
 
-        for(int i = 1; i < n; ++i){
-            int pos1 = lower_bound(hasha, hasha+cnta,bian[i][0])-hasha+1;
-            int pos2 = lower_bound(hasha, hasha+cnta,bian[i][1])-hasha+1;
-            hh.addedge(pos1, pos2);
-            hh.addedge(pos2, pos1);
-            ida[pos1] = (i)*2;
-            ida[pos2] = (i)*2+1;
-            //pr(pos1);prln(pos2);
-        }
-        for(int i = 1; i < n; ++i){
-            int pos1 = lower_bound(hashb, hashb+cntb,bian[i+n][0])-hashb+1;
-            int pos2 = lower_bound(hashb, hashb+cntb,bian[i+n][1])-hashb+1;
-            hw.addedge(pos1, pos2);
-            hw.addedge(pos2, pos1);
-            id[pos1] = (i+n)*2;
-            id[pos2] = (i+n)*2+1;
-            //pr(pos1);prln(pos2);
-        }
-        hh.dfs1(1,1);
-        prln("**************");
-        hh.dfs2(1,1);
-        hh.getf();
-        //prln("**************");
-        hw.dfs1(1,1);
-        hw.dfs2(1,1);
-        hw.getf();
-        hh.getf();
-        bool ok = true;
-        for(int i = 0; i < hh.edgenum; ++i){
-            /*pr(i);pr(hh.f[i]);prln(hw.f[i]);*/
-            if(hh.f[i] != hw.f[i]) ok = false;
-        }
-        int posa, posb, pa, pb;
-        for(int i = 0; i < cnta; ++i){
-            //pr(i);pr(hh.node[i].hash);prln(hh.node[i].id);
-            //pr(i);pr(hw.node[i].hash);prln(hw.node[i].id);
-            posa = ida[hh.node[i+1].id]/2;
-            pa = ida[hh.node[i+1].id]&1;
-            posb = id[hw.node[i+1].id]/2;
-            pb = id[hw.node[i+1].id]&1;
-            printf("%s %s\n", ss[posa][pa], ss[posb][pb]);
-        }
-       //for(int i = 0; i < cnta; ++i){
-            //prln(hh.node[i+1].hash);
-            //posa = ida[hh.node[i+1].id]/2;
-            //pa = ida[hh.node[i+1].id]&1;
-            //posb = hw.getid(hh.node[i+1].hash, l);
-            //l = posb+1;
-            //pr(posb);
-            //prln(hw.node[posb].hash);
-            //pb = id[posb]&1;
-            //posb = id[posb]/2;
-            //prln(l);
-            //printf("%s %s\n", ss[posa][pa], ss[posb][pb]);
-       //}
-        //if(ok) cout << "YES";
+        solve();
 
-        
     }
 	return 0;
 }
