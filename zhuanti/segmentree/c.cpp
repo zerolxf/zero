@@ -1,8 +1,8 @@
 /*************************************************************************
-    > File Name: c.cpp
-    > Author: Zeroxf
-    > Mail: 641587852@qq.com 
-    > Created Time: 2016年04月29日 星期五 16时52分12秒
+	> File Name: c.cpp
+	> Author: liangxianfeng
+	> Mail:   641587852@qq.com
+	> Created Time: 2016年07月13日 星期三 09时26分10秒
  ************************************************************************/
 
 #include<iostream>
@@ -24,135 +24,149 @@ using namespace std;
 #define MEM(a,b) memset(a,b,sizeof a)
 #define pr(x) cout << #x << " = " << x << " ";
 #define prln(x) cout << #x << " = " << x <<  endl; 
-const int maxn = 1e6+100;
+const int maxn = 2e6+1e5;
 const int INF = 0x3f3f3f3f;
-ll num[maxn<<2], sum[maxn<<2];
-int add[maxn<<2], flag[maxn<<2];
-void pushdown(int rt, int l, int r) {
-	if(sum[rt] == 0) {
-		sum[rt<<1] = sum[rt<<1|1] = 0;
-		add[rt] = 0;
-	}
-	if(add[rt]) {
-		int m = l + r >> 1;
-		sum[rt<<1] += (m -l + 1)*add[rt];
-		sum[rt<<1|1] += (r-m)*add[rt];
-		add[rt<<1|1] = add[rt<<1] = add[rt];
-		add[rt] = 0;
-	}
+struct Node{
+    ll num;
+    ll sum;
+    Node(){}
+    Node(ll _num, ll _sum){
+        num = _num;
+        sum = _sum;
+    }
+}node[maxn];
+Node get(const Node& a, const Node& b){
+    return Node(a.num+b.num, a.sum+b.sum);
 }
-void update(int rt, int l, int r, int ql, int qr) {
-	if(ql <= l && r <= qr) {
-//		flag[rt] = 1;
-		sum[rt] = 0;
-		return;
-	}
-	int m = l + r >> 1;
-	pushdown(rt, l, r);
-	if(m >= ql) update(rt<<1, l, m, ql, qr);
-	if(m < qr) update(rt<<1|1, m+1, r, ql, qr);
-	sum[rt] = sum[rt<<1] + sum[rt<<1|1];
+int add[maxn], n, m;
+void pushdown(int rt){
+    if(add[rt]){
+        add[rt<<1] = add[rt<<1|1] = add[rt];
+        node[rt<<1] = node[rt<<1|1] = Node(0,0);
+        add[rt] = 0;
+    }
 }
-void edit(int rt, int l, int r, int ql, int qr, int v) {
-	pushdown(rt,l,r);
-	if(ql <= l && r <= qr){
-		add[rt] += v;
-		sum[rt] += (r-l+1)*v;
-		return;
-	}
-	int m = l + r >> 1;
-	if(m >= ql) edit(rt<<1, l, m, ql, qr, v);
-	if(m < qr) edit(rt<<1|1, m+1, r, ql, qr, v);
-	sum[rt] = sum[rt<<1] + sum[rt<<1|1];
+void update(int rt, int l, int r, int o, ll v) {
+    if(l == r){
+        node[rt].num += v;
+        node[rt].sum += v*(ll)l;
+        return;
+    }
+    pushdown(rt);
+    int m = (l + r) >> 1;
+    if(m >= o) update(rt<<1, l, m, o, v);
+    else update(rt<<1|1, m+1, r, o, v);
+    node[rt] = get(node[rt<<1], node[rt<<1|1]);
 }
-ll query(int rt, int l, int r, int ql, int qr) {
-	if(ql <= l && r <= qr) {
-		return sum[rt];
-	}
-	ll ans = 0;
-	int m = l + r >> 1;
-	if(m >= ql) ans += query(rt<<1, l, m, ql, qr);
-	if(m < qr) ans += query(rt<<1|1, m+1, r, ql, qr);
-	return ans;
+
+void update2(int rt, int l, int r, int ql, int qr) {
+    if(ql <= l && r <= qr){
+        add[rt] = true;
+        node[rt] = Node(0,0);
+        return ;
+    }
+    pushdown(rt);
+    int m = (l + r) >> 1;
+    if(m >= ql) update2(rt<<1, l, m, ql, qr);
+    if(m < qr) update2(rt<<1|1, m+1, r, ql, qr);
+    node[rt] = get(node[rt<<1], node[rt<<1|1]);
 }
-void npushdown(int rt, int l, int r) {
-	if(num[rt] == 0) {
-		num[rt<<1] = num[rt<<1|1] = 0;
-		flag[rt] = 0;
-	}
-	if(flag[rt]) {
-		int m = l + r >> 1;
-		num[rt<<1] += (m -l + 1)*flag[rt];
-		num[rt<<1|1] += (r-m)*flag[rt];
-		flag[rt<<1|1] = flag[rt<<1] = flag[rt];
-		flag[rt] = 0;
-	}
+Node query(int rt, int l, int r, int ql, int qr){
+    if(ql <= l && r <= qr){
+        return node[rt];
+    }
+    pushdown(rt);
+    int m = (l + r) >> 1;
+    Node ans(0,0);
+    if(m >= ql) ans = get(ans, query(rt<<1, l, m, ql, qr));
+    if(m < qr) ans = get(ans, query(rt<<1|1, m+1,r, ql, qr));
+    return ans;
 }
-void nupdate(int rt, int l, int r, int ql, int qr) {
-	if(ql <= l && r <= qr) {
-//		flag[rt] = 1;
-		num[rt] = 0;
-		return;
-	}
-	int m = l + r >> 1;
-	npushdown(rt, l, r);
-	if(m >= ql) nupdate(rt<<1, l, m, ql, qr);
-	if(m < qr) nupdate(rt<<1|1, m+1, r, ql, qr);
-	num[rt] = num[rt<<1] + num[rt<<1|1];
+Node query(int rt, int l, int r, int n){
+    if(l==r){
+        return Node(n,(ll)n*l);
+    }
+    pushdown(rt);
+    int m = (l + r) >> 1;
+    if(node[rt<<1].num >= n) return query(rt<<1, l, m, n);
+    return get(node[rt<<1], query(rt<<1|1, m+1, r, n-node[rt<<1].num));
 }
-void nedit(int rt, int l, int r, int ql, int qr, int v) {
-	npushdown(rt,l,r);
-	if(ql <= l && r <= qr){
-		flag[rt] += v;
-		num[rt] += (r-l+1)*v;
-		return;
-	}
-	int m = l + r >> 1;
-	if(m >= ql) nedit(rt<<1, l, m, ql, qr, v);
-	if(m < qr) nedit(rt<<1|1, m+1, r, ql, qr, v);
-	num[rt] = num[rt<<1] + num[rt<<1|1];
-}
-ll nquery(int rt, int l, int r, int ql, int qr) {
-	npushdown(rt,l,r);
-	if(ql <= l && r <= qr) {
-		return num[rt];
-	}
-	ll ans = 0;
-	int m = l + r >> 1;
-	if(m >= ql) ans += nquery(rt<<1, l, m, ql, qr);
-	if(m < qr) ans += nquery(rt<<1|1, m+1, r, ql, qr);
-	return ans;
+void clear(int rt, ll l, int r, int n){
+    if(l==r){
+        node[rt].num -= n;
+        node[rt].sum = (ll)node[rt].num*l;
+        return;
+    }
+    pushdown(rt);
+    int m = (l + r) >> 1;
+    if(node[rt<<1].num >= n){
+        clear(rt<<1, l, m, n);
+    }else{
+        add[rt<<1] = 1;
+        clear(rt<<1|1, m+1, r, n-node[rt<<1].num);
+        node[rt<<1] = Node(0,0);
+    }
+    node[rt] = get(node[rt<<1], node[rt<<1|1]);
 }
 int main(){
 #ifdef LOCAL
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
 	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
-	ll n, t, c, x, _n;
-	char op[100];
-	_n = 1;
-	while(_n < 1e6+10) _n*=2;
-	update(1, 1, _n, 1, _n);
-	nupdate(1, 1, _n, 1, _n);
-	while(scanf("%s", op) != EOF) {
-		scanf("%lld%lld",&n, &x);
-		int l = 1, r =  _n;
-		if(op[0] == 'A') {
-			nedit(1, 1, _n, x, x, n);
-			edit(1, 1, _n, x, x, x*n);
-		} else {
-			while(l < r) {
-				int m = (l+r)>>1;
-				if(nquery(1, 1, _n, 1, m) > n) r = m;
-				else l = m+1;
-			}
-			if(nquery(1, 1, _n, 1, r) < n){
-				printf("UNHAPPY\n");
-			} else {
-				int now = nquery(1, 1, _n, 1, r-2);	
-
-			}
-		}
-	}
+    char op[10];
+    ll t;
+    int _n = 1, n;
+    while(_n < 1e6) _n <<= 1;
+    for(int i = 0; i <= _n*2; ++i){
+        node[i] = Node(0,0);
+        add[i] = 0;
+    }
+    while(scanf("%s%d%lld", op, &n, &t) != EOF){
+        if(op[0] == 'A') {
+            update(1, 1, _n, t, n);
+        }else{
+            Node ans;
+            if(node[1].num<n){
+                printf("UNHAPPY\n");
+            }else{
+                ans = query(1, 1, _n, n);
+                if(ans.sum > t){
+                    printf("UNHAPPY\n");
+                }else{
+                    printf("HAPPY\n");
+                    clear(1, 1, _n, n);
+                }
+            }
+            continue;
+            ll l = 1, r = 1e6+1;
+            ans = query(1, 1, _n, 1, r);
+            if(ans.num < n || n > t){
+                printf("UNHAPPY\n");
+                continue;
+            }
+            if(ans.num > n){
+                printf("HAPPY\n");
+                update(1, 1, _n, l, -n);
+                continue;
+            }
+            while(l < r-1){
+                int m = (l+r) >> 1;
+                ans = query(1, 1, _n, 1, m);
+                if(ans.num <= n) l = m;
+                else r = m; 
+            }
+            continue;
+            Node lnode = query(1, 1, _n, 1, l);
+            ll need = n - lnode.num;
+            ll sum = lnode.sum;
+            if(need>0) sum += need*r;
+            if(sum > t) printf("UNHAPPY\n");
+            else{
+                printf("HAPPY\n");
+                if(need>0)update(1, 1, _n, r, -need);
+                update2(1, 1, _n, 1, l);
+            }
+        }
+    }
 	return 0;
 }

@@ -59,7 +59,7 @@ void getSa(int n, int m){
 
 
 void getHeight(int n){
-    int i, j, k = 0;
+    int j, k = 0;
     rep(i, n+1) r[sa[i]] = i;
     for(int i = 0; i < n; ++i){
         if(k) k--;

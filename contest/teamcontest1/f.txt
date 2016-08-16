@@ -1,0 +1,153 @@
+/*************************************************************************
+    > File Name: d.cpp
+    > Author: liangxianfeng
+    > Mail:   liangxianfeng96@qq.com
+    > Created Time: 2016年08月15日 星期一 14时30分23秒
+ ************************************************************************/
+
+#include <iostream>
+#include <cstdio>
+#include <cstdlib>
+#include <cstring>
+#include <algorithm>
+#include <stack>
+#include <map>
+#include <set>
+#include <vector>
+#include <queue>
+#include <string>
+#include <cmath>
+using namespace std;
+#define ll long long
+#define rep(i,n) for(int i =0; i < n; ++i)
+#define CLR(x) memset(x,0,sizeof x)
+#define MEM(a,b) memset(a,b,sizeof a)
+#define pr(x) cout << #x << " = " << x << " ";
+#define prln(x) cout << #x << " = " << x <<  endl;
+const int maxn = 4e5+100;
+const int INF = 0x3f3f3f3f;
+ double x[maxn], y[maxn];
+ double dis[1100][1100];
+inline long double getdis(int i, int j){
+    long double dis = (x[i]-x[j])*(x[i]-x[j]) + (y[i]-y[j])*(y[i]-y[j]);
+    return sqrt(dis);
+}
+struct Node{
+    long double x, y, c;
+}dp[2][maxn];
+inline void get(long double& a, long double b, const long double c){
+    if(c >= a){
+        b = a;
+        a = c;
+    }else if(c > b){
+        b = c;
+    }
+}
+double dd[2][maxn];
+bool in[maxn];
+double w;
+int n;
+void spfa(){
+    for(int i = 1; i <= n; ++i){
+        dd[0][i] = x[i];
+        dd[1][i] = w-x[i];
+    }
+    queue<int> q;
+    for(int i = 1; i <= n; ++i){
+        q.push(i);
+        in[i] = true;
+    }
+    memset(in,0,sizeof in);
+    while(q.size()){
+        int u = q.front();q.pop();
+        in[u] = false;
+       // prln(u);
+        for(int i = 1; i <= n; ++i){
+            if(i==u) continue;
+            double v = dis[i][u];
+            if(dd[0][i] < dd[0][u]) continue;
+            double temp = max(dd[0][u],v);
+            if(temp < dd[0][i]){
+                 //   prln(dd[0][i]);prln(temp);
+                dd[0][i] = temp;
+
+                if(in[i]) continue;
+                else{
+                    q.push(i);
+                    in[i] = true;
+                }
+            }
+        }
+    }
+    while(q.size()) q.pop();
+     memset(in,0,sizeof in);
+    for(int i = 1; i <= n; ++i){
+        q.push(i);
+        in[i] = true;
+    }
+    while(q.size()){
+        int u = q.front();q.pop();
+        in[u] = false;
+       // prln(u);
+        for(int i = 1; i <= n; ++i){
+            if(i==u) continue;
+            double v = dis[i][u];
+            if(dd[1][i] < dd[1][u]) continue;
+            if(max(dd[1][u],v) < dd[1][i]){
+                dd[1][i] = max(dd[1][u],v);
+                if(in[i]) continue;
+                else{
+                    q.push(i);
+                    in[i] = true;
+                }
+            }
+        }
+    }
+    double ans = w/2;
+    double xx = w/2,yy=0;
+    for(int i = 1; i <= n; ++i){
+        double temp = max(x[i]/2, dd[1][i]);
+        if(temp < ans){
+            ans = min(ans, temp);
+            xx = x[i]/w;
+            yy = y[i];
+        }
+        temp = max((w-x[i])/2, dd[0][i]);
+        if(temp < ans){
+            ans = min(ans, temp);
+            xx = (x[i]+w)/2;
+            yy = y[i];
+        }
+    }
+    for(int i = 1; i <= n; ++i){
+        for(int j = 1; j <= n; ++j){
+           // if(i==j) continue;
+            double ddd = max(dd[0][i], dd[1][j]);
+            ddd = max(ddd, dis[i][j]/2);
+            if(ddd<ans){
+                xx = (x[i]+x[j])/2;
+                yy = (y[i]+y[j])/2;
+            }
+        }
+    }
+    printf("%.3f %.3f\n",xx,yy);
+}
+int main(){
+	freopen("froggy.in","r",stdin);
+	freopen("froggy.out","w",stdout);
+    //int n;
+   // long double w;
+    cin >> w >> n;
+        for(int i = 1; i <= n; ++i){
+            cin >> x[i] >> y[i];
+        }
+        for(int i = 1; i <= n; ++i){
+            for(int j = i; j <= n; ++j){
+                dis[i][j] = dis[j][i] = getdis(i,j);
+            }
+        }
+        spfa();
+
+
+	return 0;
+}
