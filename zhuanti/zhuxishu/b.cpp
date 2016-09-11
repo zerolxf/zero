@@ -1,5 +1,5 @@
 /*************************************************************************
-	> File Name: poj2104.cpp
+	> File Name: b.cpp
 	> Author: liangxianfeng
 	> Mail:   liangxianfeng96@qq.com
 	> Created Time: 2016年07月18日 星期一 11时22分46秒
@@ -93,14 +93,18 @@ int main(){
 	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
     int q;
+    int kase = 0;
+    scanf("%d", &kase);
     //int t, kase = 0;
     //scanf("%d", &t)
-    while(scanf("%d%d", &n, &q) != EOF){
+    while(kase--){
+        scanf("%d%d", &n, &q);
         tot = 0;
         //pr(n);prln(q);
         
-        for(int i = 1; i <= n; ++i)
+        for(int i = 1; i <= n; ++i){
             scanf("%d", &a[i]);
+        }
         inithash();
         T[n+1] = build(1,m);
         for(int i = n; i; --i){
@@ -110,6 +114,9 @@ int main(){
         while(q--){
             int l, r, k;
             scanf("%d%d%d", &l, &r, &k);
+            //pr(k);
+            k = (r-l+1)-k+1;
+            //prln(k);
             printf("%d\n", t[query(T[l], T[r+1], k)]);
         }
     }

@@ -1,8 +1,8 @@
 /*************************************************************************
-	> File Name: h.cpp
+	> File Name: hh.cpp
 	> Author: liangxianfeng
 	> Mail:   641587852@qq.com
-	> Created Time: 2016年05月07日 星期六 17时20分56秒
+	> Created Time: 2016年05月10日 星期二 09时27分41秒
  ************************************************************************/
 
 #include<iostream>
@@ -26,76 +26,52 @@ using namespace std;
 #define prln(x) cout << #x << " = " << x <<  endl; 
 const int maxn = 4e5+100;
 const int INF = 0x3f3f3f3f;
-bool vis[100];
-int depth;
-char s[10][30];
 int len[10];
-int n;
-int kk;
-int dfs(int pos, int now, int id, int cnt) {
-    if(cnt > depth) return false;
-    if(id==n-1&&now==len[id]){
-        return cnt;
-    } else if(now==len[id]) {
-        return dfs(0,0,id+1,cnt);
-    } else {
-        for(int i = 0; i < kk;++i){
-            int npos = i*4+s[id][now];
-            int temp = s[id][now];
-            if(pos<npos && npos<kk*4){
-                if(vis[npos]) {
-                    int ans = dfs(npos, now+1, id, cnt);
-                    if(ans){
-                        return ans;
-                    }
-                }else {
-                    vis[npos] = true;
-                    int ans = dfs(npos, now+1, id, cnt+1);
-                    if(ans){
-                        return ans;
-                    } 
-                    vis[npos] = false;
-                }
+int pos[10];
+char ch[5] = "ATGC";
+char s[10][10];
+int maxdepth, n;
+bool dfs(int depth, int *pp) {
+    if(depth > maxdepth) return false;
+    int p[9];
+    int sum = 0;
+    for(int i = 0; i < n; ++i) p[i] = pp[i], sum+=len[i]-pp[i];
+    if(sum==0) return true;
+    for(int i = 0; i < 4; ++i){
+        sum = 0;
+        for(int j = 0; j < n; ++j){
+            p[j] = pp[j];
+            while(p[j] < len[j] && s[j][p[j]] == ch[i]) 
+            {
+                p[j]++,sum++;break;
             }
+        }
+        if(sum) if(dfs(depth+1, p)){
+            return true;
         }
     }
     return false;
 }
-int ok(int x) {
-    depth = x;
-    memset(vis,0,sizeof vis);
-    int ans = dfs(-1, 0, 0, 0);
-    return ans;
-}
 int main(){
 #ifdef LOCAL
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
-  //  freopen("/home/zeroxf/桌面/out.txt","w",stdout);
+	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
     int t;
     scanf("%d", &t);
-    kk = 10;
-    while(t--) {
+    while(t--){
         scanf("%d", &n);
+        maxdepth = 1;
         for(int i = 0; i < n; ++i){
             scanf("%s", s[i]);
-            len[i]  =strlen(s[i]);
-            for(int j = 0; j < len[i]; ++j){
-                if(s[i][j] == 'A')  s[i][j] = 0;
-                else if(s[i][j] == 'C') s[i][j] = 1;
-                else if(s[i][j] == 'G') s[i][j] = 2;
-                else s[i][j] = 3;
-            }
+            len[i] = strlen(s[i]);
+            if(len[i] > maxdepth) maxdepth = len[i];
         }
-        int l = 1, r = kk*4,m;
-        int ans;
-        while(l < r) {
-            m = (l+r)>>1;
-            ans = ok(m);
-            if(ans) r = ans;
-            else l = m+1;
+        for(; ; maxdepth++){
+            for(int i = 0; i < n; ++i) pos[i] = 0;
+            if(dfs(0,pos)) break;
         }
-        printf("%d\n", l);
+        printf("%d\n", maxdepth);
     }
 	return 0;
 }

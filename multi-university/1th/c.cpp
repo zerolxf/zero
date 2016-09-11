@@ -49,7 +49,6 @@ void calcnt(){
         rep_1(j,m){
             if(s[i][j]=='G'){ 
                 a[i][j] = 0;
-                //prln(cntr);
                 rr[cntr++] = Node(i,j);
             }
             else a[i][j] = 1;
@@ -86,24 +85,7 @@ inline int getremove1(int x, int y){
 }
 inline ll getremove(int x, int y){
     ll ans = 0;
-    //if((x==1&&y==1)||(x==1&&y==m)||(x==n&&y==1)||(x==n&&y==m)){
-        //return (ll)getremove1(n, m-1)+getremove1(n-1,1);
-    //}else if(x==1){
-        //return (ll)getremove1(n, y-1) + getremove1(n-1,1) + getremove1(n, m-y); 
-    //}else if(x == n){
-        //x = 1;
-        //return (ll)getremove1(n, y-1) + getremove1(n-1,1) + getremove1(n, m-y); 
-        //return getremove1(1, y-1) + getremove1(n-1,y) + getremove1(n, m-y); 
-    //}else if(y == 1){
-        //return (ll)getremove1(x-1, m) + getremove1(1, m-1) + getremove1(n-x, m);
-    //}else if(y == m){
-        //y = 1;
-        //return (ll)getremove1(x-1, m) + getremove1(1, m-1) + getremove1(n-x, m);
-    //}
     ans = (ans + getremove1(x-1,y) + getremove1(x,m-y) + getremove1(n-x+1,y-1) + getremove1(n-x,m-y+1));
-    //ans = (ans + getremove1(x,m-y));
-    //ans = (ans + getremove1(n-x+1,y-1));
-    //ans = (ans + getremove1(n-x,m-y+1));
     return ans;
 }
 ll getadd(){
@@ -141,7 +123,6 @@ ll getadd(){
                 flag = false;
             }
         }
-        //ans = ans%MOD;
     }
     flag  = true;
     last = 0;
@@ -177,7 +158,6 @@ ll getadd(){
            
             }
         }
-        //ans = ans%MOD;
     }
     return ans;
 }
@@ -187,7 +167,6 @@ ll solve(){
     ll add = 0;
     ll x = getremove(1,1);
     ll sumx = x;
-    prln(x);
     for(int i = 2; i <= m; ++i){
         x -= (m-2*i+2)*n;
         prln(x);
@@ -201,28 +180,8 @@ ll solve(){
     for(int i = 0; i < cntr; ++i){
         sum -= 2*getremove(rr[i].x, rr[i].y);
     }
-    prln(sum);
-    //ll remove = 0;
-    //rep_1(i, n){
-        //rep_1(j, m){
-            //if(a[i][j]){
-                //ans += getremove(i,j);
-                //add += getremove(i,j);
-                //pr(i);pr(j);prln(getremove(i,j));
-            //}else {
-                //ans -= getremove(i,j);
-                //remove += getremove(i,j);
-            //}
-        //}
-    //}
-    //prln(add);prln(remove);
-
-    add = getadd();
-    //prln("Gadd");
-    //prln(add);
-    //prln(ans);
-    ans = sum + add;
-    //ans = (ans+MOD)%MOD;
+   add = getadd();
+   ans = sum + add;
     return ans;
 }
 int main(){
@@ -239,10 +198,7 @@ int main(){
         }
         ll temp = solve();
         double ans = (ll)n*m-cntc;
-        //prln(cntc);
         ans = ans*ans;
-        //prln(ans);
-        //prln(temp);
         ll gadd = 0;
         for(int i = 0; i < cntc; ++i){
             for(int j = 0; j < cntc; ++j){
