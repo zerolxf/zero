@@ -71,6 +71,7 @@ void dfs(int pos, int num1, int num2){
     dfs(pos-1, num1*10+b2,num2*10+b1);
 }
 int main(){
+    
     int n ;
     mod[0] = 1e9+7;
     mod[1] = 1e8+7;
