@@ -24,7 +24,7 @@ using namespace std;
 #define MEM(a,b) memset(a,b,sizeof a)
 #define pr(x) cout << #x << " = " << x << " ";
 #define prln(x) cout << #x << " = " << x <<  endl; 
-const int maxn = 1e6+100;
+const int maxn = 5e6+100;
 const int INF = 0x3f3f3f3f;
 const int N = 26;
 int tot;
@@ -34,23 +34,23 @@ int lson[maxn], rson[maxn];
 int update(int pos, int root, int val){
     int newnode = tot++, tmp = newnode;
     c[newnode] = c[root] + val;
-    pr(pos);prln(c[newnode]);
+    //pr(pos);prln(c[newnode]);
     int l = 1, r = n;
     while(l < r){
         int mid = (l+r) >> 1;
-        pr(l);prln(r);
+        //pr(l);prln(r);
         if(pos <= mid){
             lson[newnode] = tot++, rson[newnode] = rson[root];
-            newnode = lson[newnode], root = rson[root];
+            newnode = lson[newnode], root = lson[root];
             r = mid;
         }else{
             lson[newnode] = lson[root], rson[newnode] = tot++;
-            newnode = rson[root], root = rson[root];
+            newnode = rson[newnode], root = rson[root];
             l = mid+1;
         }
-        pr(l);pr(r);
+        //pr(l);pr(r);
         c[newnode] = c[root] + val;
-        prln(c[newnode]);
+        //prln(c[newnode]);
     }
     return tmp;
 }
@@ -76,8 +76,8 @@ void insert(int num){
     for(int i = 0; i < len; ++i){
         int cc = s[i] - 'a';
         int &u = nxt[root][cc];
-        pr(i);
-        prln(s[i]);
+        //pr(i);
+        //prln(s[i]);
         if(u != -1){
             if(last[u]>0)
             T[num] = update(last[u], T[num], -1);
@@ -94,6 +94,7 @@ void insert(int num){
 }
 int query(int rt, int l, int r, int ql, int qr){
     if(ql <= l && r <= qr){
+        //pr(l);pr(r);prln(c[rt]);
         return c[rt];
     }
     int mid = (l+r) >> 1;
@@ -115,24 +116,27 @@ int main(){
         memset(last, 0, sizeof last);
         memset(nxt[0], -1, sizeof nxt[0]);
         T[0] = build(1, n);
-        prln(T[0]);
+        //prln(T[0]);
         for(int i = 1; i <= n; ++i){
             T[i] = T[i-1];
-            prln("*************");
-            prln(i);
-            prln(T[i]);
+            //prln("*************");
+            //prln(i);
+            //prln(T[i]);
             insert(i);
-            prln(T[i]);
-            prln("--------------");
+            //prln(T[i]);
+            //prln("--------------");
         }
         int q, l, r;
         scanf("%d", &q);
         int ans = 0;
+        l = 0, r = 0;
         for(int i = 0; i <q ; ++i){
             scanf("%d%d", &l, &r);
-            l = min((l+ans)%n,(r+ans)%n)+1;
-            r = max((l+ans)%n,(r+ans)%n)+1;
-            pr(l);prln(r);
+            //pr(l);prln(r);
+            int lll = l, rr = r;
+            l = min((lll+ans)%n,(rr+ans)%n)+1;
+            r = max((lll+ans)%n,(rr+ans)%n)+1;
+            //pr(l);prln(r);
             //l++;r++;
             ans = query(T[r], 1, n, l, r);
             printf("%d\n", ans);

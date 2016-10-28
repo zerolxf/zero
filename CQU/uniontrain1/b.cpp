@@ -63,7 +63,7 @@ int main(){
 	freopen("/home/zeroxf/桌面/in.txt","r",stdin);
 	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
-    int n, m, kase;
+    int  kase;
     scanf("%d", &kase);
     while(kase--){
         scanf("%s%s%s", t, s, ss);

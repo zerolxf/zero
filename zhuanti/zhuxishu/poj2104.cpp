@@ -93,7 +93,8 @@ int main(){
 	//freopen("/home/zeroxf/桌面/out.txt","w",stdout);
 #endif
     int q;
-
+    //int t, kase = 0;
+    //scanf("%d", &t)
     while(scanf("%d%d", &n, &q) != EOF){
         tot = 0;
         //pr(n);prln(q);
