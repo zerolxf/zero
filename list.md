@@ -6,5 +6,4 @@ git
 nodejs & hexo
 and so on
 vim
-qt
 
