@@ -45,6 +45,7 @@ int main(){
     int t;
     scanf("%d", &t);
     while(t--){
+
         scanf("%lld%lld", &n, &m);
         ll x = ret(m-1,MOD-2)%MOD;
         ll ans = ret(m, n+1)%MOD;
