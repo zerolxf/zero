@@ -1,0 +1,49 @@
+#include <iostream>
+#include <cstdio>
+#include <cstring>
+#include <cmath>
+#include <string>
+#include <queue>
+#include <cstdlib>
+#include <algorithm>
+#include <stack>
+#include <map>
+#include <queue>
+#include <vector>
+
+using namespace std;
+const int maxn = 1e4+100;
+const int INF = 0x3f3f3f3f;
+#define pr(x)       cout << #x << " = " << x << " ";
+#define prln(x)     cout << #x << " = " << x <<endl;
+#define ll long long
+#define MEM(a,b) memset(a,b,sizeof a)
+#define CLR(a) memset(a,0,sizeof a)
+#define MN(a,b,n) memset(a,b,n*sizeof(int))
+int main(){
+#ifdef LOCAL
+    freopen("C:\\Users\\Administrator\\Desktop\\in.txt","r",stdin);
+  //freopen("C:\\Users\\Administrator\\Desktop\\out.txt","w",stdout);
+ #endif
+    int n, a, b, c;
+    cin >> n >> a >> b >> c;
+    if(a > b) swap(a,b);
+    if(a > c) swap(a,c);
+    if(b > c) swap(b,c);
+    int ans = 1;
+    int cnta = n/a,cntb = n/b,ctnc = n/c;
+    bool flag = false;
+    for(int i = cnta; i >= 0; --i) {
+    	//if(flag) break;
+    	for(int j = cntb; j >= 0;--j) {
+    	//	if(flag) break;
+    		if((i*a+j*b<=n)&&(n-(i*a+j*b))%c==0){
+    			ans = max(i+j+(n-(i*a+j*b))/c,ans);
+    			flag = true;
+    			break;
+    		}
+    	}
+    }
+    cout << ans << "\n";
+    return 0;
+}

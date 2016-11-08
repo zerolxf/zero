@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 ### Ubuntu初始化
 
 #### 1. 安装无线驱动和更新系统以及语言
@@ -63,3 +64,14 @@ sudo add-apt-repository ppa:t-tujikawa/ppa
 sudo apt-get update 
 sudo apt-get install aria2
 ```
+=======
+bcloud
+chorme
+shadowsock
+星际翻译
+git
+nodejs & hexo
+and so on
+vim
+
+>>>>>>> b07e8dd48000eba5c1b7fed14f8f2fbd8200c89f
