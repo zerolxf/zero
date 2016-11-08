@@ -64,6 +64,8 @@ sudo add-apt-repository ppa:t-tujikawa/ppa
 sudo apt-get update 
 sudo apt-get install aria2
 ```
+
+
 =======
 bcloud
 chorme
@@ -75,3 +77,12 @@ and so on
 vim
 
 >>>>>>> b07e8dd48000eba5c1b7fed14f8f2fbd8200c89f
+### 参考链接
+
+#### socks5 强转http
+[privoxy](http://www.cnblogs.com/liuxuzzz/p/5324749.html)
+#### 淘宝镜像安装hexo
+[淘宝镜像](https://npm.taobao.org/)
+
+
+>nmp,nodejs直接用新立得安装
