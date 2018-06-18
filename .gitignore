@@ -1,4 +1,5 @@
 *.o
+*.exe
 acm
 b
 c
